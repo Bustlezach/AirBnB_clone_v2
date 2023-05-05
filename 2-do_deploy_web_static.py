@@ -1,41 +1,44 @@
 #!/usr/bin/python3
 """Deploy archive!"""
+
 from fabric.api import *
-from datetime import datetime
+import os.path
 
 env.user = 'ubuntu'
 env.hosts = ['18.206.207.78', '100.25.14.62']
 
 
-def do_pack():
-    """the project directory to unpack .tgz"""
-    now = datetime.now().strftime("%Y%m%d%H%M%S")
-    local('sudo mkdir -p ./versions')
-    path = './versions/web_static_{}'.format(now)
-    local('sudo tar -czvf {}.tgz web_static'.format(path))
-    name = '{}.tgz'.format(path)
-    if name:
-        return name
-    else:
-        return None
-
-
 def do_deploy(archive_path):
-    """Deploy the tgz file package"""
-    try:
-        file_name = archive_path.split('/')[-1]
-        path = '/data/web_static/releases/' + file_name.strip('.tgz')
-        cur = '/data/web_static/current'
-        put(archive_path, '/tmp')
-        run('mkdir -p {}/'.format(path))
-        run('tar -xzf /tmp/{} -C {}'.format(file_name, path))
-        run('rm /tmp/{}'.format(file_name))
-        run('mv {}/web_static/* {}'.format(path, path))
-        run('rm -rf {}/web_static'.format(path))
-        run('rm -rf {}'.format(cur))
-        run('ln -s {} {}'.format(path, cur))
-        print('New version deployed!')
-        return True
-    except ValueError:
+    """Deploy the tgz file package.
+
+    Args:
+        archive_path (str): The path of the archive to distribute.
+    Returns:
+        If the file doesn't exist at archive_path or an error occurs - False.
+        Otherwise - True.
+    """
+    if os.path.isfile(archive_path) is False:
         return False
-    
+    file = archive_path.split('/')[-1]
+    f_name = file.split('.')[0]
+    if put(archive_path, '/tmp/{}'.format(f_name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}".format(f_name)).failed is True:
+        return False
+    if run("mkdir -p /data/web_static/releases/{}".format(f_name)).failed is True:
+        return False
+    if run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(file, name)).failed is True:
+        return False
+    if run("rm -rf /tmp/{}".format(f_name)).failed is True:
+        return False
+    if run("mv /data/web_static/releases/{}/web_static/* "
+           "/data/web_static/releases/{}/".format(f_name, f_name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}/web_static".format(f_name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/current").failed is True:
+        return False
+    if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".format(f_name)).failed is True:
+        return False
+    return True
+
