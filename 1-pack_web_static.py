@@ -2,22 +2,32 @@
 """Compress before sending"""
 from fabric.api import *
 from datetime import datetime
+import os.path
 
 
 def do_pack():
     """Generates a .tgz archive"""
-    # Create version directory
-    local("mkdir -p versions")
-
+   
+   
     # Create the file name using the current date and time
     t = datetime.now()
-    file_name = f"web_static_{t.year}{t.month}{t.day}{t.hour}{t.minute}{t.second}.tgz"
+    file_name = "versions/web_static_{}{}{}{}{}{}.tgz".format(t.year,
+                                                         t.month,
+                                                         t.day,
+                                                         t.hour,
+                                                         t.minute,
+                                                         t.second)
 
-    # Compress the files into a tar archive
-    file_store = local(f"tar -cvzf versions/{file_name}")
-    
-    if file_store.succeeded:
-        return 'versions/{}'.format(file_name)
-    else:
+   
+	
+
+	# Create version directory
+	if os.path.isdir("versions") is False:
+        if local("mkdir -p versions").failed is True:
+            return None
+			
+	# Compress the files into a tar archive
+    if local("tar -cvzf {} web_static".format(file)).failed is True:
         return None
+    return file
     
