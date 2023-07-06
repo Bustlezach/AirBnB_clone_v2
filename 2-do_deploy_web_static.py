@@ -41,7 +41,7 @@ def do_deploy(archive_path):
         return False
     if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".format(f_name)).failed is True:
         return False
-    return True
+    
     print("New version deployed!")
-
+    return True
 
