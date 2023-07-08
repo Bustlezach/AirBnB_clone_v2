@@ -3,7 +3,7 @@ from fabric.api import local
 from time import strftime
 
 def do_pack():
-    """Generate a .tgz archive"""
+    """ Generate a .tgz archive"""
 
     fname = strftime("%Y%m%d%H%M%S")
     try:
@@ -15,4 +15,3 @@ def do_pack():
 
     except Exception as e:
         return None
-
