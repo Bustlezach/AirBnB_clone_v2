@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+"""Make achive file"""
+
 from fabric.api import local
 from datetime import datetime
 
