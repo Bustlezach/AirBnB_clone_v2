@@ -1,17 +1,17 @@
+#!/usr/bin/env bash
 from fabric.api import local
-from time import strftime
+from datetime import datetime
 
 def do_pack():
     """Generate a .tgz archive"""
 
-    fname = strftime("%Y%m%d%H%M%S")
+    # Generate the archive path
+    now = datetime.now().strftime("%Y%m%d%H%M%S")
     try:
         local("mkdir -p versions")
-        local("tar -czvf versions/web_static_{}.tgz web_static/"
-              .format(fname))
-
-        return "versions/web_static_{}.tgz".format(fname)
+        archive_path = "versions/web_static_{}.tgz".format(now)
+        result = local("tar -cvzf {} web_static".format(archive_path))
+        return archive_path
 
     except Exception as e:
         return None
-
