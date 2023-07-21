@@ -1,5 +1,5 @@
-"""#!/usr/bin/python3
-
+#!/usr/bin/python3
+"""
 This a script that starts a Flask web application.
 It renders the HTML page only if n is an integer:
 H1 tag: “Number: n is even|odd”
@@ -59,4 +59,3 @@ def number_odd_or_even(n):
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
-
