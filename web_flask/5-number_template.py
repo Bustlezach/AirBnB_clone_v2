@@ -36,20 +36,17 @@ def python(text):
     return f"Python {text}"
 
 
-@app.route('/number/<n>', strict_slashes=False)
+@app.route('/number/<int:n>', strict_slashes=False)
 def number(n):
     """Displays n is a number."""
-    if n.isdigit():
-        return f"{n} is a number"
+    return f"{n} is a number"
 
 
-@app.route('/number_template/<n>', strict_slashes=False)
+@app.route('/number_template/<int:n>', strict_slashes=False)
 def number_template(n):
     """Displays n is a number."""
-    if n.isdigit():
-        return render_template("5-number.html", n=n)
+    return render_template("5-number.html", n=n)
 
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000, host='0.0.0.0')
-
