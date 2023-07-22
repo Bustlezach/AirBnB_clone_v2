@@ -9,12 +9,12 @@ from sqlalchemy.orm import relationship
 
 
 class Review(BaseModel, Base):
-    """Represents a review for a MySQL database.
+    """MySQL database for review.
 
-    Inherits from SQLAlchemy Base and links to the MySQL table reviews.
+    Constructs Review table with SQLAlchemy
 
     Attributes:
-        __tablename__ (str): The name of the MySQL table to store Reviews.
+        __tablename__ (str): The MySQL table name to store Reviews.
         text (sqlalchemy String): The review description.
         place_id (sqlalchemy String): The review's place id.
         user_id (sqlalchemy String): The review's user id.

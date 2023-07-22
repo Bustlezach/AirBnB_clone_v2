@@ -13,11 +13,11 @@ Base = declarative_base()
 
 class BaseModel:
     """Defines the BaseModel class.
-
+    
     Attributes:
-        id (sqlalchemy String): The BaseModel id.
-        created_at (sqlalchemy DateTime): datetime at creation.
-        updated_at (sqlalchemy DateTime): last update datetime.
+        id (sqlalchemy String): BaseModel id.
+        created_at (sqlalchemy DateTime): The datetime at creation.
+        updated_at (sqlalchemy DateTime): The datetime of last update.
     """
 
     id = Column(String(60), primary_key=True, nullable=False)
@@ -48,6 +48,7 @@ class BaseModel:
 
     def to_dict(self):
         """Return a dictionary representation of the BaseModel instance.
+
         Includes the key/value pair __class__ representing
         the class name of the object.
         """
@@ -67,3 +68,4 @@ class BaseModel:
         d = self.__dict__.copy()
         d.pop("_sa_instance_state", None)
         return "[{}] ({}) {}".format(type(self).__name__, self.id, d)
+

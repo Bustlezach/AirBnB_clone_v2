@@ -11,11 +11,12 @@ from sqlalchemy.orm import relationship
 
 
 class State(BaseModel, Base):
-    """A state for MySQL database.
-    It inherits from SQLAlchemy Base and links to the MySQL table states.
+    """MySQL database for state.
+
+    Constructs State table with SQLAlchemy
 
     Attributes:
-        __tablename__ (str): MySQL table name.
+        __tablename__ (str): The table name
         name (sqlalchemy String): The name of the State.
         cities (sqlalchemy relationship): The State-City relationship.
     """
