@@ -8,6 +8,7 @@ Routes:
 """
 from flask import Flask, render_template
 from models import storage
+from models.state import State
 
 app = Flask(__name__)
 
@@ -15,12 +16,12 @@ app = Flask(__name__)
 @app.route("/states_list", strict_slashes=False)
 def state_list():
     """Displays an HTML page with a list of all State objects."""
-    states = storage.all()
-    return render_template("7-states_list.html", states=states)
+    States = storage.all(State)
+    return render_template("7-states_list.html", States=States)
 
 
 @app.teardown_appcontext
-def teardown(exe):
+def teardown_appcontext(self):
     """Removes the current SQLAlchemy Session."""
     storage.close()
 
