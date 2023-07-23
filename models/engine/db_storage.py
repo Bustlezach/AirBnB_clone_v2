@@ -1,5 +1,6 @@
-#!/usr/bin/Python3
+#!/usr/bin/python3
 """This module defines the engine for the MySQL database"""
+
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
@@ -7,10 +8,9 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-from sqlalchemy import (create_engine)
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 import os
-
 
 user = os.getenv('HBNB_MYSQL_USER')
 pwd = os.getenv('HBNB_MYSQL_PWD')
@@ -27,11 +27,11 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """Contructor for the class DBStorage"""
+        """Constructor for the class DBStorage"""
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
             user, pwd, host, db), pool_pre_ping=True)
-    if env == "test":
-        Base.MetaData.drop_all()
+        if env == "test":
+            Base.MetaData.drop_all()
 
     def all(self, cls=None):
         """Method to return a dictionary of objects"""
@@ -64,11 +64,10 @@ class DBStorage:
     def reload(self):
         """Method to create the current database session"""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         DBStorage.__session = Session()
 
     def close(self):
-        """public methodto to call remove method"""
+        """Public method to call the remove method"""
         self.__session.remove()
