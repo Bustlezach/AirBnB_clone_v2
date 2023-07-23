@@ -17,7 +17,14 @@ app = Flask(__name__)
 def states():
     """Displays an HTML page with a list of all State objects."""
     states = storage.all(State)
-    return render_template("8-cities_by_states.html", states=states)
+    return render_template("9-states.html", states=states)
+
+
+@app.route("/states/<int:id>", strict_slashes=False)
+def states_id(id):
+    """Displays an HTML page with a list of all State objects."""
+    states = storage.all(State).get("State.{}".format(id))
+    return render_template("9-states.html", states=states)
 
 
 @app.teardown_appcontext
