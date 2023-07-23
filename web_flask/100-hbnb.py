@@ -8,18 +8,22 @@ Routes:
     /states_list: HTML page with a list of all State objects in DBStorage.
 """
 
-from flask import Flask, render_template
 from models import storage
 from models.state import State
+from models.amenity import Amenity
+from models.place import Place
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 
-@app.route("/states", strict_slashes=False)
-def states():
+@app.route('/hbnb', strict_slashes=False)
+def hbnb():
     """Displays an HTML page with a list of all State objects."""
     states = storage.all(State)
-    return render_template("8-cities_by_states.html", states=states)
+    amenities = storage.all(Amenity)
+    places = storage.all(Place)
+    return render_template("100-hbnbs.html", states=states, amenities=amenities, places=places)
 
 
 @app.teardown_appcontext

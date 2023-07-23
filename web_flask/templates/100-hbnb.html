@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/4-common.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/4-header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/3-footer.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/6-filters.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/8-places.css') }}">
+    <link rel="icon" type="images/png" href="{{ url_for('static', filename='images/icon.png') }}">
+    <link rel="icon" type="images/png" href="{{ url_for('static', filename='images/icon_group.png') }}">
+    <link rel="icon" type="images/png" href="{{ url_for('static', filename='images/icon_bed.png') }}">
+    <link rel="icon" type="images/png" href="{{ url_for('static', filename='images/icon_bath.png') }}">
+    <title>Airbnb</title>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+	</div>
+      </header>
+    <div class="container">
+      <section class="filters">
+	<div class="locations">
+	  <h3>States</h3>
+	  <h4>&nbsp;</h4>
+	  <div class="popover">
+	    <ul>
+	      {% for state in states.values()|sort(attribute='name') %}
+	         <li><h2>{{ state.name }}:</h2>
+	    <ul>
+                 {% for city in state.cities|sort(attribute='name') %}
+	         <li>{{ city.name }}</li>
+                 {% endfor %}
+	       </ul>
+	    </li>
+	      {% endfor %}
+	    </ul>
+	    </div>
+	  </div>
+	<div class="amenities">
+	  <h3>Amenities</h3>
+	  <h4>&nbsp;</h4>
+	  <div class="popover">
+	    <ul>
+	       {% for amenity in amenities.values()|sort(attribute='name') %}
+	             <li>{{ amenity.name }}</li>
+	       {% endfor %}
+	    </ul>
+	    </div>
+	  </div>
+	<button class="search_button">
+	  Search
+	  </button>
+	</section>
+      </div>
+    <footer>
+      <div class="centered_footer">Holberton School</div>
+      </footer>
+    </body>
+</html>
